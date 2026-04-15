@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Disciplina {
     private int id;
     private String nome;
-    private String parofessor;
+    private String professor;
     private int cargaHoraria;
     private ArrayList<Estudante> estudantes;
 
@@ -15,26 +15,20 @@ public class Disciplina {
         this.estudantes = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
-    }
+    public int getId() { return id; }
+    public String getNome() { return nome; }
+    public ArrayList<Estudante> getEstudantes() { return estudantes; }
 
-    public String getNome() {
-        return nome;
-    }
+    public void setNome(String nome) { this.nome = nome; }
 
     public void adicionarEstudante(Estudante e) {
-        estudantes.add(e);
-    }
-
-    public ArrayList<Estudante> getEstudantes() {
-        return estudantes;
+        if (!estudantes.contains(e)) {
+            estudantes.add(e);
+        }
     }
 
     @Override
     public String toString() {
-        return "ID: " + id + " | Disciplina: " + nome +
-               " | Professor: " + professor +
-               " | Carga Horária: " + cargaHoraria + "h";
+        return "ID: " + id + " | Disciplina: " + nome + " | Professor: " + professor + " | Carga Horária: " + cargaHoraria + "h";
     }
 }
