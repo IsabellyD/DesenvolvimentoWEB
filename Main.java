@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class MainEstudante {
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
 
         ArrayList<Estudante> estudantes = new ArrayList<>();
@@ -21,6 +22,7 @@ public class Main {
             opcao = sc.nextInt();
 
             switch (opcao) {
+
                 case 1:
                     System.out.print("ID da disciplina: ");
                     int idDisc = sc.nextInt();
@@ -54,15 +56,22 @@ public class Main {
                     System.out.print("Matrícula: ");
                     String mat = sc.nextLine();
 
-                    System.out.print("Curso: ");
-                    String curso = sc.nextLine();
-
-                    estudantes.add(new Estudante(idEst, nome, idade, mat, curso));
+                    estudantes.add(new Estudante(idEst, nome, idade, mat));
                     System.out.println("Estudante cadastrado!");
                     break;
 
                 case 3:
-                    System.out.print("ID do estudante: ");
+                    System.out.println("\n--- ESTUDANTES ---");
+                    for (Estudante e : estudantes) {
+                        System.out.println(e.getId() + " - " + e.getNome());
+                    }
+
+                    System.out.println("\n--- DISCIPLINAS ---");
+                    for (Disciplina d : disciplinas) {
+                        System.out.println(d.getId() + " - " + d.getNome());
+                    }
+
+                    System.out.print("\nID do estudante: ");
                     int idEstBusca = sc.nextInt();
 
                     System.out.print("ID da disciplina: ");
@@ -87,6 +96,7 @@ public class Main {
 
                     if (estEncontrado != null && discEncontrada != null) {
                         discEncontrada.adicionarEstudante(estEncontrado);
+                        estEncontrado.adicionarDisciplina(discEncontrada);
                         System.out.println("Estudante inserido na disciplina!");
                     } else {
                         System.out.println("Estudante ou Disciplina não encontrado!");
@@ -106,6 +116,10 @@ public class Main {
                     System.out.println("\n--- ESTUDANTES ---");
                     for (Estudante e : estudantes) {
                         System.out.println(e);
+                        System.out.println("Disciplinas:");
+                        for (Disciplina d : e.getDisciplinas()) {
+                            System.out.println("  - " + d.getNome());
+                        }
                     }
                     break;
 
