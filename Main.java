@@ -1,138 +1,143 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+public class Main {
 
-public class MainEstudante {
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        ReaderService reader = new ReaderService();
+        PrinterService printer = new PrinterService();
 
-        ArrayList<Estudante> estudantes = new ArrayList<>();
-        ArrayList<Disciplina> disciplinas = new ArrayList<>();
+        SistemaService sistema = new SistemaService();
 
-        int opcao;
+        int op;
 
         do {
-            System.out.println("\n===== MENU =====");
-            System.out.println("1 - Cadastrar Disciplina");
-            System.out.println("2 - Cadastrar Estudante");
-            System.out.println("3 - Inserir estudante na disciplina");
-            System.out.println("4 - Listar");
-            System.out.println("5 - Sair");
-            System.out.print("Escolha: ");
-            opcao = sc.nextInt();
 
-            switch (opcao) {
+            printer.print(
+                    "\n1-Cad Disciplina" +
+                    "\n2-Cad Estudante" +
+                    "\n3-Relacionar" +
+                    "\n4-Listar" +
+                    "\n5-Editar Disciplina" +
+                    "\n6-Editar Estudante" +
+                    "\n7-Sair"
+            );
+
+            op = reader.lerInt();
+
+            switch (op) {
 
                 case 1:
-                    System.out.print("ID da disciplina: ");
-                    int idDisc = sc.nextInt();
-                    sc.nextLine();
 
-                    System.out.print("Nome da disciplina: ");
-                    String nomeDisc = sc.nextLine();
+                    printer.print("ID:");
+                    int idD = reader.lerInt();
 
-                    System.out.print("Professor: ");
-                    String prof = sc.nextLine();
+                    printer.print("Nome:");
+                    String nomeD = reader.lerString();
 
-                    System.out.print("Carga horária: ");
-                    int carga = sc.nextInt();
+                    printer.print("Professor:");
+                    String prof = reader.lerTexto();
 
-                    disciplinas.add(new Disciplina(idDisc, nomeDisc, prof, carga));
-                    System.out.println("Disciplina cadastrada!");
+                    printer.print("Carga:");
+                    int carga = reader.lerInt();
+
+                    sistema.cadastrarDisciplina(
+                            new Disciplina(idD, nomeD, prof, carga)
+                    );
+
                     break;
 
                 case 2:
-                    System.out.print("ID do estudante: ");
-                    int idEst = sc.nextInt();
-                    sc.nextLine();
 
-                    System.out.print("Nome: ");
-                    String nome = sc.nextLine();
+                    printer.print("ID:");
+                    int idE = reader.lerInt();
 
-                    System.out.print("Idade: ");
-                    int idade = sc.nextInt();
-                    sc.nextLine();
+                    printer.print("Nome:");
+                    String nomeE = reader.lerString();
 
-                    System.out.print("Matrícula: ");
-                    String mat = sc.nextLine();
+                    printer.print("Idade:");
+                    int idade = reader.lerInt();
 
-                    estudantes.add(new Estudante(idEst, nome, idade, mat));
-                    System.out.println("Estudante cadastrado!");
+                    printer.print("Matrícula:");
+                    String mat = reader.lerString();
+
+                    sistema.cadastrarEstudante(
+                            new Estudante(idE, nomeE, idade, mat)
+                    );
+
                     break;
 
                 case 3:
-                    System.out.println("\n--- ESTUDANTES ---");
-                    for (Estudante e : estudantes) {
-                        System.out.println(e.getId() + " - " + e.getNome());
-                    }
 
-                    System.out.println("\n--- DISCIPLINAS ---");
-                    for (Disciplina d : disciplinas) {
-                        System.out.println(d.getId() + " - " + d.getNome());
-                    }
+                    sistema.listarEstudantesSimples();
 
-                    System.out.print("\nID do estudante: ");
-                    int idEstBusca = sc.nextInt();
+                    printer.print("ID estudante:");
+                    int e = reader.lerInt();
 
-                    System.out.print("ID da disciplina: ");
-                    int idDiscBusca = sc.nextInt();
+                    sistema.listarDisciplinasSimples();
 
-                    Estudante estEncontrado = null;
-                    Disciplina discEncontrada = null;
+                    printer.print("ID disciplina:");
+                    int d = reader.lerInt();
 
-                    for (Estudante e : estudantes) {
-                        if (e.getId() == idEstBusca) {
-                            estEncontrado = e;
-                            break;
-                        }
-                    }
+                    sistema.inserir(e, d);
 
-                    for (Disciplina d : disciplinas) {
-                        if (d.getId() == idDiscBusca) {
-                            discEncontrada = d;
-                            break;
-                        }
-                    }
-
-                    if (estEncontrado != null && discEncontrada != null) {
-                        discEncontrada.adicionarEstudante(estEncontrado);
-                        estEncontrado.adicionarDisciplina(discEncontrada);
-                        System.out.println("Estudante inserido na disciplina!");
-                    } else {
-                        System.out.println("Estudante ou Disciplina não encontrado!");
-                    }
                     break;
 
                 case 4:
-                    System.out.println("\n--- DISCIPLINAS ---");
-                    for (Disciplina d : disciplinas) {
-                        System.out.println(d);
-                        System.out.println("Estudantes:");
-                        for (Estudante e : d.getEstudantes()) {
-                            System.out.println("  - " + e.getNome());
-                        }
-                    }
 
-                    System.out.println("\n--- ESTUDANTES ---");
-                    for (Estudante e : estudantes) {
-                        System.out.println(e);
-                        System.out.println("Disciplinas:");
-                        for (Disciplina d : e.getDisciplinas()) {
-                            System.out.println("  - " + d.getNome());
-                        }
-                    }
+                    sistema.listarTudo();
+
                     break;
 
                 case 5:
-                    System.out.println("Encerrando...");
+
+                    sistema.listarDisciplinasSimples();
+
+                    printer.print("ID:");
+                    int ed = reader.lerInt();
+
+                    printer.print("Nome:");
+                    String nd = reader.lerString();
+
+                    printer.print("Professor:");
+                    String np = reader.lerTexto();
+
+                    printer.print("Carga:");
+                    int nc = reader.lerInt();
+
+                    sistema.editarDisciplina(ed, nd, np, nc);
+
+                    break;
+
+                case 6:
+
+                    sistema.listarEstudantesSimples();
+
+                    printer.print("ID:");
+                    int ee = reader.lerInt();
+
+                    printer.print("Nome:");
+                    String ne = reader.lerString();
+
+                    printer.print("Idade:");
+                    int ni = reader.lerInt();
+
+                    printer.print("Matrícula:");
+                    String nm = reader.lerString();
+
+                    sistema.editarEstudante(ee, ne, ni, nm);
+
+                    break;
+
+                case 7:
+
+                    printer.print("Sistema encerrado!");
+
                     break;
 
                 default:
-                    System.out.println("Opção inválida!");
+
+                    printer.print("Opção inválida!");
             }
 
-        } while (opcao != 5);
-
-        sc.close();
+        } while (op != 7);
     }
 }
