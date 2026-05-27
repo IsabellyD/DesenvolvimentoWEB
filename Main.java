@@ -1,143 +1,220 @@
 public class Main {
-
-    public static void main(String[] args) {
+        public static void main(String[] args) {
 
         ReaderService reader = new ReaderService();
         PrinterService printer = new PrinterService();
-
-        SistemaService sistema = new SistemaService();
+        EstudanteRepository estRepo = new EstudanteRepository();
+        DisciplinaRepository discRepo = new DisciplinaRepository();
+        EstudanteService estService = new EstudanteService(estRepo);
+        DisciplinaService discService = new DisciplinaService(discRepo);
+        EstudanteController estController = new EstudanteController(estService);
+        DisciplinaController discController = new DisciplinaController(discService);
 
         int op;
 
         do {
 
-            printer.print(
-                    "\n1-Cad Disciplina" +
-                    "\n2-Cad Estudante" +
-                    "\n3-Relacionar" +
-                    "\n4-Listar" +
-                    "\n5-Editar Disciplina" +
-                    "\n6-Editar Estudante" +
-                    "\n7-Sair"
-            );
+        printer.print(
+                "\n1-Cad Disciplina" +
+                "\n2-Cad Estudante" +
+                "\n3-Relacionar" +
+                "\n4-Listar" +
+                "\n5-Editar Disciplina" +
+                "\n6-Editar Estudante" +
+                "\n7-Sair"
+        );
 
-            op = reader.lerInt();
+        op = reader.lerInt();
 
-            switch (op) {
+        switch (op) {
 
                 case 1:
+                printer.print("ID:");
+                int idD = reader.lerInt();
 
-                    printer.print("ID:");
-                    int idD = reader.lerInt();
+                printer.print("Nome:");
+                String nomeD = reader.lerString();
 
-                    printer.print("Nome:");
-                    String nomeD = reader.lerString();
+                printer.print("Professor:");
+                String prof = reader.lerTexto();
 
-                    printer.print("Professor:");
-                    String prof = reader.lerTexto();
+                printer.print("Carga:");
+                int carga = reader.lerInt();
 
-                    printer.print("Carga:");
-                    int carga = reader.lerInt();
+                DisciplinaDTO discDTO = new DisciplinaDTO(
+                                idD,
+                                nomeD,
+                                prof,
+                                carga
+                );
 
-                    sistema.cadastrarDisciplina(
-                            new Disciplina(idD, nomeD, prof, carga)
-                    );
+                discController.cadastrar(
+                        discDTO
+                );
 
-                    break;
+                printer.print("Disciplina cadastrada!"
+                );
+                break;
 
                 case 2:
+                printer.print("ID:");
+                int idE = reader.lerInt();
 
-                    printer.print("ID:");
-                    int idE = reader.lerInt();
+                printer.print("Nome:");
+                String nomeE = reader.lerString();
 
-                    printer.print("Nome:");
-                    String nomeE = reader.lerString();
+                printer.print("Idade:");
+                int idade = reader.lerInt();
 
-                    printer.print("Idade:");
-                    int idade = reader.lerInt();
+                printer.print("Matrícula:");
+                String mat = reader.lerString();
 
-                    printer.print("Matrícula:");
-                    String mat = reader.lerString();
+                EstudanteDTO estDTO = new EstudanteDTO(
+                                idE,
+                                nomeE,
+                                idade,
+                                mat
+                        );
 
-                    sistema.cadastrarEstudante(
-                            new Estudante(idE, nomeE, idade, mat)
-                    );
+                estController.cadastrar(
+                        estDTO
+                );
 
-                    break;
+                printer.print("Estudante cadastrado!"
+                );
+                break;
 
                 case 3:
+                estController.listarSimples(
+                        printer
+                );
 
-                    sistema.listarEstudantesSimples();
+                printer.print("ID estudante:"
+                );
 
-                    printer.print("ID estudante:");
-                    int e = reader.lerInt();
+                int idEst = reader.lerInt();
 
-                    sistema.listarDisciplinasSimples();
+                discController.listarSimples(
+                        printer
+                );
 
-                    printer.print("ID disciplina:");
-                    int d = reader.lerInt();
+                printer.print("ID disciplina:"
+                );
 
-                    sistema.inserir(e, d);
+                int idDisc = reader.lerInt();
 
-                    break;
+                Estudante e = estService.buscar(idEst);
+
+                Disciplina d = discService.buscar(idDisc);
+
+                if (e != null && d != null) {
+
+                        e.adicionarDisciplina(d);
+
+                        d.adicionarEstudante(e);
+
+                        printer.print("Relacionamento feito!"
+                        );
+
+                } else {
+
+                        printer.print("Estudante ou disciplina não encontrado!"
+                        );
+                }
+                break;
 
                 case 4:
+                printer.print("\nDISCIPLINAS:"
+                );
 
-                    sistema.listarTudo();
+                discController.listar(
+                        printer
+                );
 
-                    break;
+                printer.print("\nESTUDANTES:"
+                );
+
+                estController.listar(
+                        printer
+                );
+                break;
 
                 case 5:
+                discController.listarSimples(
+                        printer
+                );
 
-                    sistema.listarDisciplinasSimples();
+                printer.print("ID:");
+                int ed = reader.lerInt();
 
-                    printer.print("ID:");
-                    int ed = reader.lerInt();
+                printer.print("Nome:");
+                String nd = reader.lerString();
 
-                    printer.print("Nome:");
-                    String nd = reader.lerString();
+                printer.print("Professor:");
+                String np = reader.lerTexto();
 
-                    printer.print("Professor:");
-                    String np = reader.lerTexto();
+                printer.print("Carga:");
+                int nc = reader.lerInt();
 
-                    printer.print("Carga:");
-                    int nc = reader.lerInt();
+                DisciplinaDTO dtoD = new DisciplinaDTO(
+                                ed,
+                                nd,
+                                np,
+                                nc
+                        );
 
-                    sistema.editarDisciplina(ed, nd, np, nc);
+                discController.editar(
+                        ed,
+                        dtoD
+                );
 
-                    break;
+                printer.print("Disciplina editada!"
+                );
+                break;
 
                 case 6:
+                estController.listarSimples(
+                        printer
+                );
 
-                    sistema.listarEstudantesSimples();
+                printer.print("ID:");
+                int ee = reader.lerInt();
 
-                    printer.print("ID:");
-                    int ee = reader.lerInt();
+                printer.print("Nome:");
+                String ne = reader.lerString();
 
-                    printer.print("Nome:");
-                    String ne = reader.lerString();
+                printer.print("Idade:");
+                int ni = reader.lerInt();
 
-                    printer.print("Idade:");
-                    int ni = reader.lerInt();
+                printer.print("Matrícula:");
+                String nm = reader.lerString();
 
-                    printer.print("Matrícula:");
-                    String nm = reader.lerString();
+                EstudanteDTO dtoE =  new EstudanteDTO(
+                                ee,
+                                ne,
+                                ni,
+                                nm
+                        );
 
-                    sistema.editarEstudante(ee, ne, ni, nm);
+                estController.editar(
+                        ee,
+                        dtoE
+                );
 
-                    break;
+                printer.print("Estudante editado!"
+                );
+                break;
 
                 case 7:
-
-                    printer.print("Sistema encerrado!");
-
-                    break;
+                printer.print("Sistema encerrado!"
+                );
+                break;
 
                 default:
 
-                    printer.print("Opção inválida!");
-            }
-
+                printer.print("Opção inválida!"
+                );
+                }
         } while (op != 7);
-    }
+}
 }
