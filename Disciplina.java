@@ -7,7 +7,8 @@ public class Disciplina {
     private String professor;
     private int cargaHoraria;
 
-    private ArrayList<Estudante> estudantes = new ArrayList<>();
+    private ArrayList<Estudante> estudantes =
+            new ArrayList<>();
 
     public Disciplina(int id, String nome, String professor, int cargaHoraria) {
         this.id = id;
@@ -49,13 +50,9 @@ public class Disciplina {
     }
 
     public void adicionarEstudante(Estudante e) {
+
         if (!estudantes.contains(e)) {
             estudantes.add(e);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ID: " + id + " | Disciplina: " + nome + " | Professor: " + professor + " | Carga Horária: " + cargaHoraria + "h";
     }
 }
