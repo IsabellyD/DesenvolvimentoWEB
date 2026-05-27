@@ -9,7 +9,7 @@ public class Estudante {
 
     private ArrayList<Disciplina> disciplinas = new ArrayList<>();
 
-    public Estudante(int id, String nome, int idade, String matricula) {
+    public Estudante(int id, String nome,int idade, String matricula) {
         this.id = id;
         this.nome = nome;
         this.idade = idade;
@@ -49,13 +49,10 @@ public class Estudante {
     }
 
     public void adicionarDisciplina(Disciplina d) {
+
+
         if (!disciplinas.contains(d)) {
             disciplinas.add(d);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "ID: " + id + " | Nome: " + nome + " | Idade: " + idade + " | Matrícula: " + matricula;
     }
 }
