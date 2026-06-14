@@ -1,28 +1,6 @@
-import java.util.ArrayList;
-
-public class EstudanteRepository {
-
-    private ArrayList<Estudante> estudantes = new ArrayList<>();
-
-    public void salvar(Estudante e) {
-
-        estudantes.add(e);
-    }
-
-    public Estudante buscar(int id) {
-
-        for (Estudante e : estudantes) {
-
-            if (e.getId() == id) {
-                return e;
-            }
-        }
-
-        return null;
-    }
-
-    public ArrayList<Estudante> listar() {
-
-        return estudantes;
-    }
+package br.edu.ifpb.isabelly.projetoweb.repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import br.edu.ifpb.isabelly.projetoweb.model.entity.Estudante;
+public interface EstudanteRepository extends JpaRepository<Estudante, Long> {
 }
+
