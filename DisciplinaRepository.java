@@ -1,28 +1,5 @@
-import java.util.ArrayList;
-
-public class DisciplinaRepository {
-
-    private ArrayList<Disciplina> disciplinas = new ArrayList<>();
-
-    public void salvar(Disciplina d) {
-
-        disciplinas.add(d);
-    }
-
-    public Disciplina buscar(int id) {
-
-        for (Disciplina d : disciplinas) {
-
-            if (d.getId() == id) {
-                return d;
-            }
-        }
-
-        return null;
-    }
-
-    public ArrayList<Disciplina> listar() {
-
-        return disciplinas;
-    }
+package br.edu.ifpb.isabelly.projetoweb.repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import br.edu.ifpb.isabelly.projetoweb.model.entity.Disciplina;
+public interface DisciplinaRepository extends JpaRepository<Disciplina, Long> {
 }
