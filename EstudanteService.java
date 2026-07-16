@@ -1,75 +1,60 @@
+package br.edu.ifpb.isabelly.projetoweb.business.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import br.edu.ifpb.isabelly.projetoweb.business.dto.EstudanteDTO;
+import br.edu.ifpb.isabelly.projetoweb.model.entity.Estudante;
+import br.edu.ifpb.isabelly.projetoweb.repository.EstudanteRepository;
+
+@Service
 public class EstudanteService {
+	private final EstudanteRepository repo;
+	
+	@Autowired
+	public EstudanteService(EstudanteRepository repo) {
+		super();
+		this.repo = repo;
+	}
 
-    private EstudanteRepository repo;
+	public void cadastrar(EstudanteDTO dto) {
+		Estudante estudante = new Estudante(dto.getNome(), dto.getIdade(), dto.getMatricula());
+		repo.save(estudante);
+	}
 
-    public EstudanteService(EstudanteRepository repo) {
+	public void editar(Long id, EstudanteDTO dto) {
+		Estudante estudante = repo.findById(id).orElse(null);
 
-        this.repo = repo;
-    }
+		if (estudante != null) {
+			estudante.setNome(dto.getNome());
+			estudante.setIdade(dto.getIdade());
+			estudante.setMatricula(dto.getMatricula());
+			repo.save(estudante);
+		}
+	}
 
-    public void cadastrar(
-            EstudanteDTO dto) {
+	public Estudante buscar(Long id) {
+		return repo.findById(id).orElse(null);
+	}
 
-        Estudante e = new Estudante(
-                dto.getId(),
-                dto.getNome(),
-                dto.getIdade(),
-                dto.getMatricula()
-        );
+	public void listar(PrinterService printer) {
 
-        repo.salvar(e);
-    }
+		for (Estudante estudante : repo.findAll()) {
 
-    public void editar(
-            int id,
-            EstudanteDTO dto) {
+			EstudanteDTO dto = new EstudanteDTO(estudante.getId(), estudante.getNome(), estudante.getIdade(),
+					estudante.getMatricula());
 
-        Estudante e = repo.buscar(id);
+			printer.print(dto.toString());
 
-        if (e != null) {
+			if (estudante.getDisciplinas() != null) {
+				estudante.getDisciplinas()
+						.forEach(disciplina -> printer.print(" - Disciplina: " + disciplina.getNome()));
+			}
+		}
+	}
 
-            e.setNome(dto.getNome());
-            e.setIdade(dto.getIdade());
-            e.setMatricula(dto.getMatricula());
-        }
-    }
-
-    public Estudante buscar(int id) {
-
-        return repo.buscar(id);
-    }
-
-    public void listar(
-            PrinterService printer) {
-
-        for (Estudante e : repo.listar()) {
-
-            EstudanteDTO dto =
-                    new EstudanteDTO(
-                            e.getId(),
-                            e.getNome(),
-                            e.getIdade(),
-                            e.getMatricula()
-                    );
-
-            printer.print(dto.toString());
-
-            for (Disciplina d :
-                    e.getDisciplinas()) {
-
-                printer.print(" - " + d.getNome()
-                );
-            }
-        }
-    }
-
-    public void listarSimples(
-            PrinterService printer) {
-
-        for (Estudante e : repo.listar()) {
-
-            printer.print("ID: " + e.getId() + " | Nome: " + e.getNome()
-            );
-        }
-    }
+	public void listarSimples(PrinterService printer) {
+		for (Estudante estudante : repo.findAll()) {
+			printer.print("ID: " + estudante.getId() + " | Nome: " + estudante.getNome());
+		}
+	}
 }
