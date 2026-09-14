@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar Disciplina</title>
+
+    <link rel="stylesheet" href="estilo.css">
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <h1>Cadastrar Disciplina</h1>
+
+    <form id="formDisciplina">
+
+        <label for="nomeDisciplina">
+            Nome da Disciplina:
+        </label>
+
+        <input
+            type="text"
+            id="nomeDisciplina"
+            required
+        >
+
+        <label for="professor">
+            Professor:
+        </label>
+
+        <input
+            type="text"
+            id="professor"
+            required
+        >
+
+        <label for="cargaHoraria">
+            Carga Horária:
+        </label>
+
+        <input
+            type="number"
+            id="cargaHoraria"
+            min="1"
+            required
+        >
+
+        <button
+            type="button"
+            onclick="validarCadastro()"
+        >
+            Salvar
+        </button>
+
+    </form>
+
+</body>
+
+</html>
