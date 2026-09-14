@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cadastrar Estudante</title>
+
+    <link rel="stylesheet" href="estilo.css">
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <h1>Cadastrar Estudante</h1>
+
+    <form id="formEstudante">
+
+        <label for="nomeEstudante">
+            Nome:
+        </label>
+
+        <input
+            type="text"
+            id="nomeEstudante"
+            required
+        >
+
+        <label for="idadeEstudante">
+            Idade:
+        </label>
+
+        <input
+            type="number"
+            id="idadeEstudante"
+            min="1"
+            required
+        >
+
+        <label for="emailEstudante">
+            E-mail:
+        </label>
+
+        <input
+            type="email"
+            id="emailEstudante"
+            required
+        >
+
+        <button
+            type="button"
+            onclick="cadastrarEstudante()"
+        >
+            Salvar
+        </button>
+
+    </form>
+
+</body>
+
+</html>
