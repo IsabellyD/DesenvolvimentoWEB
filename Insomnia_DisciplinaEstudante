@@ -1,0 +1,222 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: My first collection
+meta:
+  id: wrk_a9f19c079258431d8114dc0ebf7fe154
+  created: 1790348989849
+  modified: 1790348989849
+  description: ""
+collection:
+  - url: http://localhost:8090/disciplinas
+    name: New Request
+    meta:
+      id: req_b0e98cd5544c4d3885514841bf3a0b73
+      created: 1790348990260
+      modified: 1790348997172
+      isPrivate: false
+      description: ""
+      sortKey: -1790348990263
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8090/disciplinas
+    name: New Request
+    meta:
+      id: req_244a0a4252aa4b3b8ca8c8b3355bf48f
+      created: 1790349326867
+      modified: 1790349444228
+      isPrivate: false
+      description: ""
+      sortKey: -1790349326867
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "nome": "Língua Portuguesa",
+          "professor": "Aline",
+          "cargaHoraria": 80
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8090/disciplinas/1
+    name: New Request
+    meta:
+      id: req_88cc9840604e46abb4dcca5c1d422c74
+      created: 1790349677077
+      modified: 1790355658945
+      isPrivate: false
+      description: ""
+      sortKey: -1790349677077
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "nome": "Matematica",
+          "professor": "Elenilson atualizado",
+          "cargaHoraria": 120
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8090/disciplinas/102
+    name: New Request
+    meta:
+      id: req_00ded5e58938459bb329b9e188b30d96
+      created: 1790355757074
+      modified: 1790448063976
+      isPrivate: false
+      description: ""
+      sortKey: -1790355757074
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8090/estudantes
+    name: New Request
+    meta:
+      id: req_7289f5b11280478f86e31b5cf81ea6dc
+      created: 1790360543635
+      modified: 1790360625050
+      isPrivate: false
+      description: ""
+      sortKey: -1790360543635
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "nome": "Maria Isabelly",
+          "idade": 18,
+          "matricula": "20260001"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8090/estudantes
+    name: New Request
+    meta:
+      id: req_3fcc2c83c20d4300ae2151c58f4b6dc8
+      created: 1790360690988
+      modified: 1790360711968
+      isPrivate: false
+      description: ""
+      sortKey: -1790360690988
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8090/estudantes/1
+    name: New Request
+    meta:
+      id: req_677af64902ba4aa982ab3bf3366ff1a2
+      created: 1790360724013
+      modified: 1790360760835
+      isPrivate: false
+      description: ""
+      sortKey: -1790349501972
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "nome": "Maria Isabelly Dias",
+          "idade": 18,
+          "matricula": "20260001"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:8090/estudantes/2
+    name: New Request
+    meta:
+      id: req_8ff3e2dd58274eec8a9528d400f51c2e
+      created: 1790360776415
+      modified: 1790448091749
+      isPrivate: false
+      description: ""
+      sortKey: -1790352717075.5
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_125e6a3541f578ac21c786cf8ae9b4a6afaa3fdd
+    created: 1790348989891
+    modified: 1790348989891
+environments:
+  name: Base Environment
+  meta:
+    id: env_125e6a3541f578ac21c786cf8ae9b4a6afaa3fdd
+    created: 1790348989882
+    modified: 1790348989882
+    isPrivate: false
