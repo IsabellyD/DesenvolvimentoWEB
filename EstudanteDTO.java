@@ -7,6 +7,9 @@ public class EstudanteDTO {
 	private int idade;
 	private String matricula;
 
+	public EstudanteDTO() {
+	}
+
 	public EstudanteDTO(Long id, String nome, int idade, String matricula) {
 		super();
 		this.id = id;
@@ -31,6 +34,10 @@ public class EstudanteDTO {
 		return matricula;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -45,6 +52,7 @@ public class EstudanteDTO {
 
 	@Override
 	public String toString() {
-		return "ID: " + id + " | Nome: " + nome + " | Idade: " + idade + " | Matrícula: " + matricula;
+		return "ID: " + id + " | Nome: " + nome + " | Idade: " + idade
+				+ " | Matrícula: " + matricula;
 	}
 }
