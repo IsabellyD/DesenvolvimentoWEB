@@ -1,34 +1,87 @@
 package br.edu.ifpb.isabelly.projetoweb.presentation.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import br.edu.ifpb.isabelly.projetoweb.business.dto.DisciplinaDTO;
 import br.edu.ifpb.isabelly.projetoweb.business.service.DisciplinaService;
-import br.edu.ifpb.isabelly.projetoweb.business.service.PrinterService;
 
-@Controller
+@RestController
+@RequestMapping("/disciplinas")
 public class DisciplinaController {
-	private final DisciplinaService service;
 
-	@Autowired
-	public DisciplinaController(DisciplinaService service) {
-		super();
-		this.service = service;
-	}
+    private final DisciplinaService service;
 
-	public void cadastrar(DisciplinaDTO dto) {
-		service.cadastrar(dto);
-	}
+    public DisciplinaController(DisciplinaService service) {
+        this.service = service;
+    }
 
-	public void editar(Long id, DisciplinaDTO dto) {
-		service.editar(id, dto);
-	}
+    @PostMapping
+    public ResponseEntity<DisciplinaDTO> cadastrar(
+            @RequestBody DisciplinaDTO dto) {
 
-	public void listar(PrinterService printer) {
-		service.listar(printer);
-	}
+        DisciplinaDTO disciplina = service.cadastrar(dto);
 
-	public void listarSimples(PrinterService printer) {
-		service.listarSimples(printer);
-	}
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(disciplina);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DisciplinaDTO>> listar(
+            @RequestParam(required = false) String nome) {
+
+        return ResponseEntity.ok(service.listar(nome));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DisciplinaDTO> buscar(
+            @PathVariable Long id) {
+
+        DisciplinaDTO disciplina = service.buscar(id);
+
+        if (disciplina == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(disciplina);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DisciplinaDTO> editar(
+            @PathVariable Long id,
+            @RequestBody DisciplinaDTO dto) {
+
+        DisciplinaDTO disciplina = service.editar(id, dto);
+
+        if (disciplina == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(disciplina);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(
+            @PathVariable Long id) {
+
+        boolean excluiu = service.excluir(id);
+
+        if (!excluiu) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }
