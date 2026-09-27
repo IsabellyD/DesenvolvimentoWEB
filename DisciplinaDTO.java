@@ -7,6 +7,9 @@ public class DisciplinaDTO {
 	private String professor;
 	private int cargaHoraria;
 
+	public DisciplinaDTO() {
+	}
+
 	public DisciplinaDTO(Long id, String nome, String professor, int cargaHoraria) {
 		super();
 		this.id = id;
@@ -31,6 +34,10 @@ public class DisciplinaDTO {
 		return cargaHoraria;
 	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -45,7 +52,6 @@ public class DisciplinaDTO {
 
 	@Override
 	public String toString() {
-		return "ID: " + id + " | Disciplina: " + nome + " | Professor: " + professor + " | Carga Horária: "
-				+ cargaHoraria + "h";
+		return "ID: " + id + " | Disciplina: " + nome + " | Professor: " + professor + " | Carga Horária: " + cargaHoraria + "h";
 	}
 }
