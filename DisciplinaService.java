@@ -1,62 +1,93 @@
 package br.edu.ifpb.isabelly.projetoweb.business.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+
 import br.edu.ifpb.isabelly.projetoweb.business.dto.DisciplinaDTO;
 import br.edu.ifpb.isabelly.projetoweb.model.entity.Disciplina;
 import br.edu.ifpb.isabelly.projetoweb.repository.DisciplinaRepository;
 
 @Service
 public class DisciplinaService {
-	private final DisciplinaRepository repo;
 
-	@Autowired
-	public DisciplinaService(DisciplinaRepository repo) {
-		super();
-		this.repo = repo;
-	}
+    private final DisciplinaRepository repository;
 
-	public void cadastrar(DisciplinaDTO dto) {
+    public DisciplinaService(DisciplinaRepository repository) {
+        this.repository = repository;
+    }
 
-		Disciplina disciplina = new Disciplina(dto.getNome(), dto.getProfessor(), dto.getCargaHoraria());
+    public DisciplinaDTO cadastrar(DisciplinaDTO dto) {
 
-		repo.save(disciplina);
-	}
+        Disciplina disciplina = new Disciplina(
+                dto.getNome(),
+                dto.getProfessor(),
+                dto.getCargaHoraria()
+        );
 
-	public void editar(Long id, DisciplinaDTO dto) {
+        Disciplina salva = repository.save(disciplina);
 
-		Disciplina disciplina = repo.findById(id).orElse(null);
+        return converterParaDTO(salva);
+    }
 
-		if (disciplina != null) {
-			disciplina.setNome(dto.getNome());
-			disciplina.setProfessor(dto.getProfessor());
-			disciplina.setCargaHoraria(dto.getCargaHoraria());
-			repo.save(disciplina);
-		}
-	}
+    public DisciplinaDTO buscar(Long id) {
 
-	public Disciplina buscar(Long id) {
-		return repo.findById(id).orElse(null);
-	}
+        return repository.findById(id)
+                .map(this::converterParaDTO)
+                .orElse(null);
+    }
 
-	public void listar(PrinterService printer) {
+    public List<DisciplinaDTO> listar(String nome) {
 
-		for (Disciplina disciplina : repo.findAll()) {
+        List<Disciplina> disciplinas;
 
-			DisciplinaDTO dto = new DisciplinaDTO(disciplina.getId(), disciplina.getNome(), disciplina.getProfessor(),
-					disciplina.getCargaHoraria());
+        if (nome != null && !nome.isBlank()) {
+            disciplinas = repository.findByNome(nome);
+        } else {
+            disciplinas = repository.findAll();
+        }
 
-			printer.print(dto.toString());
+        return disciplinas.stream()
+                .map(this::converterParaDTO)
+                .collect(Collectors.toList());
+    }
 
-			if (disciplina.getEstudantes() != null) {
-				disciplina.getEstudantes().forEach(estudante -> printer.print(" - Estudante: " + estudante.getNome()));
-			}
-		}
-	}
+    public DisciplinaDTO editar(Long id, DisciplinaDTO dto) {
 
-	public void listarSimples(PrinterService printer) {
-		for (Disciplina disciplina : repo.findAll()) {
-			printer.print("ID: " + disciplina.getId() + " | Nome: " + disciplina.getNome());
-		}
-	}
+        Disciplina disciplina = repository.findById(id).orElse(null);
+
+        if (disciplina == null) {
+            return null;
+        }
+
+        disciplina.setNome(dto.getNome());
+        disciplina.setProfessor(dto.getProfessor());
+        disciplina.setCargaHoraria(dto.getCargaHoraria());
+
+        Disciplina atualizada = repository.save(disciplina);
+
+        return converterParaDTO(atualizada);
+    }
+
+    public boolean excluir(Long id) {
+
+        if (!repository.existsById(id)) {
+            return false;
+        }
+
+        repository.deleteById(id);
+
+        return true;
+    }
+
+    private DisciplinaDTO converterParaDTO(Disciplina disciplina) {
+
+        return new DisciplinaDTO(
+                disciplina.getId(),
+                disciplina.getNome(),
+                disciplina.getProfessor(),
+                disciplina.getCargaHoraria()
+        );
+    }
 }
